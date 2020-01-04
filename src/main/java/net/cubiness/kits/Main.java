@@ -19,6 +19,7 @@ public class Main extends JavaPlugin implements Listener {
     getServer().getPluginManager().registerEvents(this, this);
     Bukkit.broadcastMessage("Kits plugin loaded!");
     config = getConfig();
+    kits = new HashMap<>();
   }
 
   @Override
@@ -33,8 +34,25 @@ public class Main extends JavaPlugin implements Listener {
         sender.sendMessage("Only players can use this command!");
         return true;
       }
-      return true;
+      if (args.length != 2) {
+        return false;
+      }
+      String name = args[0];
+      int power = Integer.parseInt(args[1]);
+      kits.put(name, new Kit(name, power, (Player) sender));
+    } else if (label.equals("kit")) {
+      if (!(sender instanceof Player)) {
+        sender.sendMessage("Only players can use this command!");
+        return true;
+      }
+      if (args.length != 1) {
+        return false;
+      }
+      String name = args[0];
+      kits.get(name).give((Player) sender);
+    } else {
+      return false;
     }
-    return false;
+    return true;
   }
 }

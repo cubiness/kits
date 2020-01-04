@@ -25,4 +25,8 @@ public class Kit {
   public void save(FileConfiguration config) {
 
   }
+
+  public void give(Player p) {
+
+  }
 }
