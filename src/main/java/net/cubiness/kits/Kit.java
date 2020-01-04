@@ -1,6 +1,5 @@
 package net.cubiness.kits;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,10 +10,6 @@ public class Kit implements ConfigurationSerializable {
   private final List<ItemStack> items = new ArrayList<>();
   private String name;
   private int power;
-
-  public Kit(String name, FileConfiguration config) {
-
-  }
 
   public Kit(String name, int power, Player from) {
     this.name = name;
@@ -30,9 +25,20 @@ public class Kit implements ConfigurationSerializable {
     this.items.addAll(items);
   }
 
-  public void save(FileConfiguration config) {
-    config.set("kit." + name + ".items", items);
-    config.set("kit." + name + ".power", power);
+  public static Kit deserialize(Map<String, Object> args) {
+    String name = "";
+    int power = 0;
+    List<ItemStack> items = new ArrayList<>();
+    if (args.containsKey("name")) {
+      name = "" + args.get("name");
+    }
+    if (args.containsKey("power")) {
+      power = (Integer) args.get("power");
+    }
+    if (args.containsKey("items")) {
+      items = (ArrayList<ItemStack>) args.get("items");
+    }
+    return new Kit(name, power, items);
   }
 
   public void give(Player p) {
@@ -47,22 +53,6 @@ public class Kit implements ConfigurationSerializable {
     data.put("power", power);
     data.put("items", items);
     return data;
-  }
-
-  public static Kit deserialize(Map<String, Object> args) {
-    String name = "";
-    int power = 0;
-    List<ItemStack> items = new ArrayList<>();
-    if(args.containsKey("name")) {
-      name = "" + args.get("name");
-    }
-    if(args.containsKey("power")) {
-      power = (Integer) args.get("power");
-    }
-    if(args.containsKey("items")) {
-      items = (ArrayList<ItemStack>) args.get("items");
-    }
-    return new Kit(name, power, items);
   }
 
   public String getName() {

@@ -8,7 +8,10 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -20,11 +23,11 @@ public class Main extends JavaPlugin implements Listener {
   @Override
   public void onEnable() {
     getServer().getPluginManager().registerEvents(this, this);
-    Bukkit.broadcastMessage("Kits plugin loaded!");
     ConfigurationSerialization.registerClass(Kit.class, "Kit");
     config = getConfig();
     kits = new HashMap<>();
     loadKits();
+    Bukkit.broadcastMessage("Kits plugin loaded!");
   }
 
   @Override
@@ -89,5 +92,15 @@ public class Main extends JavaPlugin implements Listener {
     } else {
       Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
     }
+  }
+
+  @EventHandler
+  public void onDropItem(PlayerDropItemEvent e) {
+    e.setCancelled(true);
+  }
+
+  @EventHandler
+  public void onDeath(EntityDeathEvent e) {
+    e.getDrops().clear();
   }
 }
