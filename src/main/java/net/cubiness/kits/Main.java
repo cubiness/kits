@@ -24,6 +24,7 @@ public class Main extends JavaPlugin implements Listener {
     ConfigurationSerialization.registerClass(Kit.class, "Kit");
     config = getConfig();
     kits = new HashMap<>();
+    loadKits();
   }
 
   @Override
@@ -57,7 +58,6 @@ public class Main extends JavaPlugin implements Listener {
       String name = args[0];
       kits.get(name).give((Player) sender);
     } else if (label.equals("kits")) {
-      loadKits();
       sender.sendMessage(ChatColor.GOLD + "Kits: " +
               ChatColor.WHITE + String.join(", ", kits.keySet()));
     } else {
