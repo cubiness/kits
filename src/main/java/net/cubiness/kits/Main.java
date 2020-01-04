@@ -93,14 +93,4 @@ public class Main extends JavaPlugin implements Listener {
       Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
     }
   }
-
-  @EventHandler
-  public void onDropItem(PlayerDropItemEvent e) {
-    e.setCancelled(true);
-  }
-
-  @EventHandler
-  public void onDeath(EntityDeathEvent e) {
-    e.getDrops().clear();
-  }
 }
