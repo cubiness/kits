@@ -1,0 +1,29 @@
+name: Kits
+main: net.cubiness.kits.Main
+version: 1.0-SNAPSHOT
+commands:
+  kitremove:
+    description: Allows you to remove kits
+    usage: /kitremove <kitname>
+    permission: kit.remove
+    permission-message: You don't have access to kit.remove
+  kitcreate:
+    description: Allows you to create kits from your current inventory
+    usage: /kitcreate <kitname>
+    permission: kit.create
+    permission-message: You don't have access to kit.create
+  kit:
+    description: Allows you to recieve kits
+    usage: /kit <kitname>
+    permission: kit.recieve
+    permission-message: You don't have access to kit.recieve
+permissions:
+  kit.recieve:
+    description: Allows player to recieve kits
+    default: true
+  kit.create:
+    description: Allows player to create kits
+    default: op
+  kit.remove:
+    description: Allows player to remove kits
+    default: op
