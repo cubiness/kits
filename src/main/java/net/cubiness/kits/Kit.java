@@ -58,8 +58,8 @@ public class Kit implements ConfigurationSerializable {
     if(args.containsKey("power")) {
       power = (Integer) args.get("power");
     }
-    if(args.containsKey("z")) {
-      items = (ArrayList<ItemStack>) args.get("z");
+    if(args.containsKey("items")) {
+      items = (ArrayList<ItemStack>) args.get("items");
     }
     return new Kit(name, power, items);
   }
