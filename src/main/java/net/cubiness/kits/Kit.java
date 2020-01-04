@@ -27,6 +27,8 @@ public class Kit {
   }
 
   public void save(FileConfiguration config) {
+    config.set("kit." + name + ".items", items);
+    config.set("kit." + name + ".power", power);
   }
 
   public void give(Player p) {

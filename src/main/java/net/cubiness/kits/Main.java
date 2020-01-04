@@ -39,7 +39,10 @@ public class Main extends JavaPlugin implements Listener {
       }
       String name = args[0];
       int power = Integer.parseInt(args[1]);
-      kits.put(name, new Kit(name, power, (Player) sender));
+      Kit kit = new Kit(name, power, (Player) sender);
+      kits.put(name, kit);
+      kit.save(config);
+      saveConfig();
     } else if (label.equals("kit")) {
       if (!(sender instanceof Player)) {
         sender.sendMessage("Only players can use this command!");
