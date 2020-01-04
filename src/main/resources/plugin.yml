@@ -17,9 +17,17 @@ commands:
     usage: /kit <kitname>
     permission: kit.recieve
     permission-message: You don't have access to kit.recieve
+  kits:
+    description: Allows you to list all kits
+    usage: /kits
+    permission: kit.list
+    permission-message: You don't have access to kit.list
 permissions:
   kit.recieve:
     description: Allows player to recieve kits
+    default: true
+  kit.list:
+    description: Allows player to list kits
     default: true
   kit.create:
     description: Allows player to create kits

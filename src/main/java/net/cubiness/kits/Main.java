@@ -3,12 +3,14 @@ package net.cubiness.kits;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public class Main extends JavaPlugin implements Listener {
   private FileConfiguration config;
@@ -41,8 +43,7 @@ public class Main extends JavaPlugin implements Listener {
       int power = Integer.parseInt(args[1]);
       Kit kit = new Kit(name, power, (Player) sender);
       kits.put(name, kit);
-      kit.save(config);
-      saveConfig();
+      saveKits();
     } else if (label.equals("kit")) {
       if (!(sender instanceof Player)) {
         sender.sendMessage("Only players can use this command!");
@@ -53,9 +54,16 @@ public class Main extends JavaPlugin implements Listener {
       }
       String name = args[0];
       kits.get(name).give((Player) sender);
+    } else if (label.equals("kits")) {
+      sender.sendMessage("");
     } else {
       return false;
     }
     return true;
+  }
+
+  private void saveKits() {
+    config.set("kits", kits);
+    saveConfig();
   }
 }

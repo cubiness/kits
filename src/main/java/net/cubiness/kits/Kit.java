@@ -1,15 +1,13 @@
 package net.cubiness.kits;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class Kit {
+public class Kit implements ConfigurationSerializable {
   private final List<ItemStack> items = new ArrayList<>();
   private String name;
   private int power;
@@ -33,5 +31,14 @@ public class Kit {
 
   public void give(Player p) {
     items.forEach(i -> p.getInventory().addItem(i));
+  }
+
+  @Override
+  public Map<String, Object> serialize() {
+    HashMap<String, Object> data = new HashMap<>();
+    data.put("name", name);
+    data.put("power", power);
+    data.put("items", items);
+    return data;
   }
 }
