@@ -36,6 +36,7 @@ public class Kit implements ConfigurationSerializable {
   }
 
   public void give(Player p) {
+    p.getInventory().clear();
     items.forEach(i -> p.getInventory().addItem(i));
   }
 
