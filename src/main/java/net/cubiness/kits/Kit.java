@@ -24,6 +24,12 @@ public class Kit implements ConfigurationSerializable {
     from.sendMessage(items + "");
   }
 
+  private Kit(String name, int power, List<ItemStack> items) {
+    this.name = name;
+    this.power = power;
+    this.items.addAll(items);
+  }
+
   public void save(FileConfiguration config) {
     config.set("kit." + name + ".items", items);
     config.set("kit." + name + ".power", power);
@@ -40,5 +46,25 @@ public class Kit implements ConfigurationSerializable {
     data.put("power", power);
     data.put("items", items);
     return data;
+  }
+
+  public static Kit deserialize(Map<String, Object> args) {
+    String name = "";
+    int power = 0;
+    List<ItemStack> items = new ArrayList<>();
+    if(args.containsKey("name")) {
+      name = "" + args.get("name");
+    }
+    if(args.containsKey("power")) {
+      power = (Integer) args.get("power");
+    }
+    if(args.containsKey("z")) {
+      items = (ArrayList<ItemStack>) args.get("z");
+    }
+    return new Kit(name, power, items);
+  }
+
+  public String getName() {
+    return name;
   }
 }

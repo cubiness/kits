@@ -1,16 +1,17 @@
 package net.cubiness.kits;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.WeakHashMap;
+import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
   private FileConfiguration config;
@@ -20,6 +21,7 @@ public class Main extends JavaPlugin implements Listener {
   public void onEnable() {
     getServer().getPluginManager().registerEvents(this, this);
     Bukkit.broadcastMessage("Kits plugin loaded!");
+    ConfigurationSerialization.registerClass(Kit.class, "Kit");
     config = getConfig();
     kits = new HashMap<>();
   }
@@ -55,7 +57,9 @@ public class Main extends JavaPlugin implements Listener {
       String name = args[0];
       kits.get(name).give((Player) sender);
     } else if (label.equals("kits")) {
-      sender.sendMessage("");
+      loadKits();
+      sender.sendMessage(ChatColor.GOLD + "Kits: " +
+              ChatColor.WHITE + String.join(", ", kits.keySet()));
     } else {
       return false;
     }
@@ -65,5 +69,25 @@ public class Main extends JavaPlugin implements Listener {
   private void saveKits() {
     config.set("kits", kits);
     saveConfig();
+  }
+
+  private void loadKits() {
+    Object data = config.get("kits");
+    if (data instanceof MemorySection) {
+      MemorySection section = (MemorySection) data;
+      Set<String> kitNames = section.getKeys(false);
+      for (String name : kitNames) {
+        Object obj = section.get(name);
+        if (!(obj instanceof Kit)) {
+          Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
+          return;
+        } else {
+          Kit kit = (Kit) obj;
+          kits.put(kit.getName(), kit);
+        }
+      }
+    } else {
+      Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
+    }
   }
 }
