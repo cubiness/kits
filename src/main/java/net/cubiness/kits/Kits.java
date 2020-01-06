@@ -1,6 +1,5 @@
 package net.cubiness.kits;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,15 +7,13 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
 
-public class Main extends JavaPlugin implements Listener {
+public class Kits extends JavaPlugin implements Listener {
   private FileConfiguration config;
   private HashMap<String, Kit> kits;
 
@@ -27,12 +24,12 @@ public class Main extends JavaPlugin implements Listener {
     config = getConfig();
     kits = new HashMap<>();
     loadKits();
-    Bukkit.broadcastMessage("Kits plugin loaded!");
+    getLogger().info("Kits plugin loaded!");
   }
 
   @Override
   public void onDisable() {
-    Bukkit.broadcastMessage("Kits plugin disabled");
+    getLogger().info("Kits plugin disabled");
   }
 
   @Override
@@ -82,7 +79,7 @@ public class Main extends JavaPlugin implements Listener {
       for (String name : kitNames) {
         Object obj = section.get(name);
         if (!(obj instanceof Kit)) {
-          Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
+          getLogger().warning("Invalid config.yml! kits should be an array of kit objects");
           return;
         } else {
           Kit kit = (Kit) obj;
@@ -90,7 +87,7 @@ public class Main extends JavaPlugin implements Listener {
         }
       }
     } else {
-      Bukkit.broadcastMessage("Invalid config.yml! kits should be an array of kit objects");
+      getLogger().warning("Invalid config.yml! kits should be an array of kit objects");
     }
   }
 }

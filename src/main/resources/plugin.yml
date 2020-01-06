@@ -1,5 +1,5 @@
 name: Kits
-main: net.cubiness.kits.Main
+main: net.cubiness.kits.Kits
 version: 1.0-SNAPSHOT
 commands:
   kitremove:
